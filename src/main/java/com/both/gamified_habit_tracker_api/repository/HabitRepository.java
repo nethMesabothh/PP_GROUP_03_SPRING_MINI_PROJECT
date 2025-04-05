@@ -2,8 +2,10 @@ package com.both.gamified_habit_tracker_api.repository;
 
 import com.both.gamified_habit_tracker_api.config.UUIDTypeHandler;
 import com.both.gamified_habit_tracker_api.model.entity.Habit;
+import com.both.gamified_habit_tracker_api.model.request.HabitRequest;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
+import org.modelmapper.internal.bytebuddy.implementation.bytecode.ShiftLeft;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -31,4 +33,13 @@ public interface HabitRepository {
         SELECT * FROM habits WHERE habit_id = #{habitId}
     """)
     Habit getHabitById(UUID habitId);
+
+
+    @ResultMap("habitMapper")
+    @Select("""
+        INSERT INTO habits (habit_id, title, description, frequency, is_active, created_at, app_user_id)
+        VALUES (uuid_generate_v4(), #{req.title}, #{req.description}, #{req.frequency}, false, CURRENT_TIMESTAMP, #{userId})
+        RETURNING *
+    """)
+    Habit saveHabit(@Param("req") HabitRequest request, UUID userId);
 }
