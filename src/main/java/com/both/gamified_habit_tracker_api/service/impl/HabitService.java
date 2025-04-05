@@ -25,5 +25,10 @@ public class HabitService implements IHabitService {
 		return habitRepository.getAllHabits();
 	}
 
+	@Override
+	public Habit getHabitById(UUID habitId) {
+		return habitRepository.getHabitById(habitId);
+	}
+
 
 }

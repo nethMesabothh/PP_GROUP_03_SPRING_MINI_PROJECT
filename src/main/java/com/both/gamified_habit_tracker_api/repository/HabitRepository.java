@@ -24,4 +24,11 @@ public interface HabitRepository {
         SELECT * FROM habits
     """)
     List<Habit> getAllHabits();
+
+
+    @ResultMap("habitMapper")
+    @Select("""
+        SELECT * FROM habits WHERE habit_id = #{habitId}
+    """)
+    Habit getHabitById(UUID habitId);
 }

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/v1/habit")
+@RequestMapping("api/v1/habits")
 @SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class HabitController {
@@ -41,4 +42,21 @@ public class HabitController {
 
 		return ResponseEntity.ok().body(apiResponse);
 	}
+
+    @GetMapping("/{habit_id}")
+    public ResponseEntity<APIResponse<Habit>> getHabitById(@PathVariable("habit_id") UUID habitId) {
+
+        Habit habit = habitService.getHabitById(habitId);
+
+        APIResponse<Habit> apiResponse = new APIResponse<>(
+                true,
+                "The habit has been fetched successfully!",
+                HttpStatus.OK,
+                habit,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.ok().body(apiResponse);
+    }
+
 }
