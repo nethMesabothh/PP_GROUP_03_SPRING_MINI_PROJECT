@@ -42,5 +42,15 @@ public class HabitService implements IHabitService {
 		return habitRepository.saveHabit(request, userId);
 	}
 
+	@Override
+	public void deleteHabitById(UUID habitId) {
+		habitRepository.deleteHabitById(habitId);
+	}
+
+	@Override
+	public Habit updateHabitById(UUID habitId, HabitRequest request) {
+		return habitRepository.updateHabitById(habitId, request);
+	}
+
 
 }

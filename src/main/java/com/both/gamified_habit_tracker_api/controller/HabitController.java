@@ -48,7 +48,7 @@ public class HabitController {
 
         APIResponse<Habit> apiResponse = new APIResponse<>(
                 true,
-                "The habit has been fetched successfully!",
+                "Habit fetched successfully!",
                 HttpStatus.OK,
                 habit,
                 LocalDateTime.now()
@@ -64,7 +64,7 @@ public class HabitController {
 
     APIResponse<Habit> apiResponse = new APIResponse<>(
             true,
-            "The habit has been created successfully",
+            "Habit created successfully",
             HttpStatus.CREATED,
             habit,
             LocalDateTime.now()
@@ -72,4 +72,36 @@ public class HabitController {
 
     return ResponseEntity.ok().body(apiResponse);
     }
+
+    @DeleteMapping("/{habit_id}")
+    public ResponseEntity<APIResponse<Habit>> deleteHabitById(@PathVariable("habit_id") UUID habitId) {
+
+        habitService.deleteHabitById(habitId);
+
+        APIResponse<Habit> apiResponse = new APIResponse<>(
+                true,
+                "Habit deleted successfully",
+                HttpStatus.CREATED,
+                null,  // use this for now
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.ok().body(apiResponse);
+    }
+
+    @PutMapping("/{habit_id}")
+    public ResponseEntity<APIResponse<Habit>> updateHabitById(@PathVariable("habit_id") UUID habitId, @RequestBody HabitRequest request) {
+        Habit habit = habitService.updateHabitById(habitId, request);
+
+        APIResponse<Habit> apiResponse = new APIResponse<>(
+                true,
+                "Habit updated successfully",
+                HttpStatus.OK,
+                habit,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.ok().body(apiResponse);
+    }
+
 }

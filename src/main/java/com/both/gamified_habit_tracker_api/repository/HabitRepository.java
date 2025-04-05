@@ -42,4 +42,15 @@ public interface HabitRepository {
         RETURNING *
     """)
     Habit saveHabit(@Param("req") HabitRequest request, UUID userId);
+
+    @Delete("""
+        DELETE FROM habits WHERE habit_id = #{habitId}
+    """)
+    void deleteHabitById(UUID habitId);
+
+    @ResultMap("habitMapper")
+    @Select("""
+        UPDATE habits SET title = #{req.title}, description = #{req.description}, frequency = #{req.frequency} WHERE habit_id = #{habitId} RETURNING *
+    """)
+    Habit updateHabitById(UUID habitId,@Param("req") HabitRequest request);
 }

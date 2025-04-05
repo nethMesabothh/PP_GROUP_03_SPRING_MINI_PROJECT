@@ -14,4 +14,8 @@ public interface IHabitService {
     Habit getHabitById(UUID habitId);
 
     Habit saveHabit(HabitRequest request);
+
+    void deleteHabitById(UUID habitId);
+
+    Habit updateHabitById(UUID habitId, HabitRequest request);
 }
