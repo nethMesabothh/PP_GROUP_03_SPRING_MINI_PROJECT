@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface AppUserRepository {
 
 	@Results(id = "appUserMapper", value = {
-					@Result(property = "appUserId", column = "app_user_id", javaType = UUID.class, jdbcType = JdbcType.OTHER, typeHandler = UUIDTypeHandler.class),
+					@Result(property = "appUserId", column = "app_user_id"),
 					@Result(property = "profileImage", column = "profile_image"),
 					@Result(property = "isVerified", column = "is_verified"),
 					@Result(property = "createdAt", column = "created_at", javaType = OffsetDateTime.class)
@@ -22,6 +22,10 @@ public interface AppUserRepository {
 					SELECT * FROM app_users WHERE email = #{identifier} OR username = #{identifier}
 					""")
 	AppUser getUserByIdentifier(String identifier);
+
+	@ResultMap("appUserMapper")
+	@Select("SELECT * FROM app_users WHERE app_user_id = #{userId}")
+	AppUser getUserById(UUID userId);
 
 	@Select("SELECT COUNT(*) FROM app_users WHERE email = #{email}")
 	boolean existsByEmail(String email);

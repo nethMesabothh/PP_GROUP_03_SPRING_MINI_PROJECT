@@ -9,18 +9,18 @@ CREATE TABLE achievements
     xp_required    INT          NOT NULL
 );
 
--- CREATE TABLE app_users
--- (
---     app_user_id   UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
---     username      VARCHAR(100) NOT NULL,
---     email         VARCHAR(100) NOT NULL,
---     password      VARCHAR(100) NOT NULL,
---     level         INT          NOT NULL,
---     xp            INT          NOT NULL,
---     profile_image VARCHAR(100) NOT NULL,
---     is_verified   BOOLEAN,
---     created_at    TIMESTAMPTZ      DEFAULT CURRENT_TIMESTAMP
--- );
+CREATE TABLE app_users
+(
+    app_user_id   UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    username      VARCHAR(100) NOT NULL,
+    email         VARCHAR(100) NOT NULL,
+    password      VARCHAR(100) NOT NULL,
+    level         INT          NOT NULL,
+    xp            INT          NOT NULL,
+    profile_image VARCHAR(100) NOT NULL,
+    is_verified   BOOLEAN,
+    created_at    TIMESTAMPTZ      DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE habits
 (
