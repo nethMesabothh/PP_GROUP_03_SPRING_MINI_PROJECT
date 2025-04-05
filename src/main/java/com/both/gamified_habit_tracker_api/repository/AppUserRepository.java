@@ -23,6 +23,10 @@ public interface AppUserRepository {
 					""")
 	AppUser getUserByIdentifier(String identifier);
 
+	@ResultMap("appUserMapper")
+	@Select("SELECT * FROM app_users WHERE app_user_id = #{app_user_id}")
+	AppUser getUserById(UUID app_user_id);
+
 	@Select("SELECT COUNT(*) FROM app_users WHERE email = #{email}")
 	boolean existsByEmail(String email);
 
