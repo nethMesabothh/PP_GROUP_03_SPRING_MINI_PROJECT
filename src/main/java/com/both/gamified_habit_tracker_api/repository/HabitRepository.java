@@ -16,9 +16,9 @@ public interface HabitRepository {
             @Result(property = "habitId", column = "habit_id", javaType = UUID.class, jdbcType = JdbcType.OTHER, typeHandler = UUIDTypeHandler.class),
             @Result(property = "isActive", column = "is_active"),
             @Result(property = "createdAt", column = "created_at", javaType = OffsetDateTime.class),
-//            @Result(property = "appUserResponse", column = "app_user_id", one = @One(
-//                    select = "com.both.gamified_habit_tracker_api.repository.AppUserRepository.getUserById"
-//            ))
+            @Result(property = "appUserResponse", column = "app_user_id", one = @One(
+                    select = "com.both.gamified_habit_tracker_api.repository.AppUserRepository.getUserById"
+            ))
     })
     @Select("""
         SELECT * FROM habits
