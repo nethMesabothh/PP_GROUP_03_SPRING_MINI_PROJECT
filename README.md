@@ -4,7 +4,7 @@
 
 [x] Habit is done
 
-[ ] Habit-log is done
+[x] Habit-log is done
 
 [ ] Achievement is done 
 
