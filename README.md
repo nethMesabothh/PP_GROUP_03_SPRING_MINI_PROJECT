@@ -6,7 +6,7 @@
 
 [x] Habit-log is done
 
-[ ] Achievement is done 
+[x] Achievement is done 
 
 [ ] File is done
 
