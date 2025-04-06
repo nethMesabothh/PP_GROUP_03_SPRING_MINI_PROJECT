@@ -9,13 +9,11 @@ import java.util.UUID;
 
 public interface IAchievementService {
 
-    List<Achievement> getAllAchievements();
+	List<Achievement> getAllAchievements();
 
-    List<Achievement> getAchievementByUserId();
+	List<Achievement> getAchievementByUserId();
 
-    Achievement saveAchievement(AchievementRequest request);
+	Achievement saveAchievement(AchievementRequest request);
 
-    void deleteAchievementById(UUID achievementId);
 
-    Achievement updateAchievementById(UUID achievementId, AchievementRequest request);
 }

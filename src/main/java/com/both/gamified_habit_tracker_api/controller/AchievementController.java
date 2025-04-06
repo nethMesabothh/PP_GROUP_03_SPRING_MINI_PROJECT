@@ -29,7 +29,7 @@ public class AchievementController {
 						true,
 						"All achievements have been fetched successfully!",
 						HttpStatus.OK,
-                        achievements,
+						achievements,
 						LocalDateTime.now()
 		);
 
@@ -40,11 +40,11 @@ public class AchievementController {
 	public ResponseEntity<APIResponse<List<Achievement>>> getAchievementByUserId() {
 		List<Achievement> achievements = achievementService.getAchievementByUserId();
 		APIResponse<List<Achievement>> apiResponse = new APIResponse<>(
-				true,
-				"All achievements have been fetched successfully!",
-				HttpStatus.OK,
-				achievements,
-				LocalDateTime.now()
+						true,
+						"All achievements have been fetched successfully!",
+						HttpStatus.OK,
+						achievements,
+						LocalDateTime.now()
 		);
 
 		return ResponseEntity.ok().body(apiResponse);

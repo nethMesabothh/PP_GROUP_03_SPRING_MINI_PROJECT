@@ -20,9 +20,6 @@ public class AchievementService implements IAchievementService {
 
 	@Override
 	public List<Achievement> getAllAchievements() {
-		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
-						.getPrincipal();
-		UUID userId = appUser.getAppUserId();
 		return achievementRepository.getAllAchievements();
 	}
 
@@ -42,16 +39,6 @@ public class AchievementService implements IAchievementService {
 				.getPrincipal();
 		UUID userId = appUser.getAppUserId();
 		return achievementRepository.saveAchievement(request);
-	}
-
-	@Override
-	public void deleteAchievementById(UUID AchievementId) {
-		achievementRepository.deleteAchievementById(AchievementId);
-	}
-
-	@Override
-	public Achievement updateAchievementById(UUID AchievementId, AchievementRequest request) {
-		return achievementRepository.updateAchievementById(AchievementId, request);
 	}
 
 
