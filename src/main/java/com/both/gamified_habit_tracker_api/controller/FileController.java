@@ -1,5 +1,6 @@
 package com.both.gamified_habit_tracker_api.controller;
 
+import com.both.gamified_habit_tracker_api.exception.NotFoundException;
 import com.both.gamified_habit_tracker_api.model.entity.FileMetadata;
 import com.both.gamified_habit_tracker_api.model.response.APIResponseAuth;
 import com.both.gamified_habit_tracker_api.service.FileService;
@@ -20,30 +21,32 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class FileController {
 
-    private final FileService fileService;
+	private final FileService fileService;
 
-    @PostMapping(value = "/upload-file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Upload a file")
-    public ResponseEntity<APIResponseAuth<FileMetadata>> uploadFile(@RequestParam MultipartFile file) {
-        FileMetadata fileMetadata = fileService.uploadFile(file);
+	@PostMapping(value = "/upload-file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@Operation(summary = "Upload a file")
+	public ResponseEntity<APIResponseAuth<FileMetadata>> uploadFile(@RequestParam MultipartFile file) {
+		FileMetadata fileMetadata = fileService.uploadFile(file);
 
-        APIResponseAuth<FileMetadata> apiResponse = new APIResponseAuth<>(
-                true,
-                "File uploaded successfully",
-                HttpStatus.CREATED,
-                fileMetadata,
-                LocalDateTime.now()
-        );
+		APIResponseAuth<FileMetadata> apiResponse = new APIResponseAuth<>(
+						true,
+						"File uploaded successfully",
+						HttpStatus.CREATED,
+						fileMetadata,
+						LocalDateTime.now()
+		);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
-    }
+		return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
+	}
 
-    @GetMapping("/preview-file/{file-name}")
-    @Operation(summary = "Preview a file")
-    public ResponseEntity<?> getFileByFileName(@PathVariable("file-name") String fileName) throws IOException {
-        InputStream inputStream = fileService.getFileByFileName(fileName);
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.IMAGE_PNG)
-                .body(inputStream.readAllBytes());
-    }
+	@GetMapping("/preview-file/{file-name}")
+	@Operation(summary = "Preview a file")
+	public ResponseEntity<?> getFileByFileName(@PathVariable("file-name") String fileName) throws IOException {
+		InputStream inputStream = fileService.getFileByFileName(fileName);
+
+
+		return ResponseEntity.status(HttpStatus.OK)
+						.contentType(MediaType.IMAGE_PNG)
+						.body(inputStream.readAllBytes());
+	}
 }
