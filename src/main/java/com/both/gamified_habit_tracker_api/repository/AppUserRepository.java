@@ -1,10 +1,9 @@
 package com.both.gamified_habit_tracker_api.repository;
 
-import com.both.gamified_habit_tracker_api.config.UUIDTypeHandler;
 import com.both.gamified_habit_tracker_api.model.entity.AppUser;
+import com.both.gamified_habit_tracker_api.model.request.HabitLogRequest;
 import com.both.gamified_habit_tracker_api.model.request.RegisterRequest;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.type.JdbcType;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -57,4 +56,9 @@ public interface AppUserRepository {
 					DELETE FROM app_users WHERE email = #{email}
 					""")
 	void deleteUser(String email);
+
+	@Select("""
+					UPDATE app_users SET xp = xp + 10, level = FLOOR((xp + 10) / 100) WHERE app_user_id = #{userId}
+					""")
+	void increaseXpAndLevelByUserId(UUID userId);
 }

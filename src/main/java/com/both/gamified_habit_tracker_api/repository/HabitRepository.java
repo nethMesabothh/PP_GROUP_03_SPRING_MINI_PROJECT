@@ -38,7 +38,7 @@ public interface HabitRepository {
     @ResultMap("habitMapper")
     @Select("""
         INSERT INTO habits (habit_id, title, description, frequency, is_active, created_at, app_user_id)
-        VALUES (uuid_generate_v4(), #{req.title}, #{req.description}, #{req.frequency}, false, CURRENT_TIMESTAMP, #{userId})
+        VALUES (uuid_generate_v4(), #{req.title}, #{req.description}, #{req.frequency}, true, CURRENT_TIMESTAMP, #{userId})
         RETURNING *
     """)
     Habit saveHabit(@Param("req") HabitRequest request, UUID userId);
