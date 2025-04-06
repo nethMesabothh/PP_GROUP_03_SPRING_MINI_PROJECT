@@ -8,6 +8,6 @@
 
 [x] Achievement is done 
 
-[ ] File is done
+[X] File is done
 
-[ ] Profile is done 
+[X] Profile is done 
