@@ -11,9 +11,7 @@ public interface IAchievementService {
 
 	List<Achievement> getAllAchievements();
 
+
+
 	List<Achievement> getAchievementByUserId();
-
-	Achievement saveAchievement(AchievementRequest request);
-
-
 }

@@ -34,7 +34,7 @@ public interface AppUserRepository {
 
 	@ResultMap("appUserMapper")
 	@Select("""
-					INSERT INTO app_users VALUES (default, #{req.username}, #{req.email}, #{passwordEncrypt}, 1, 0, #{req.profileImage}, false, default) RETURNING  *
+					INSERT INTO app_users VALUES (default, #{req.username}, #{req.email}, #{passwordEncrypt}, 0, 0, #{req.profileImage}, false, default) RETURNING  *
 					""")
 	AppUser save(@Param("req") RegisterRequest request, String passwordEncrypt);
 
@@ -58,7 +58,7 @@ public interface AppUserRepository {
 	void deleteUser(String email);
 
 	@Select("""
-					UPDATE app_users SET xp = xp + 10, level = FLOOR((xp + 10) / 100) WHERE app_user_id = #{userId}
+					UPDATE app_users SET xp = xp + 10, level = FLOOR((xp + 10) / 100) WHERE app_user_id = #{userId} RETURNING *
 					""")
-	void increaseXpAndLevelByUserId(UUID userId);
+	AppUser increaseXpAndLevelByUserId(UUID userId);
 }

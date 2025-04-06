@@ -3,6 +3,7 @@ package com.both.gamified_habit_tracker_api.service.impl;
 import com.both.gamified_habit_tracker_api.model.entity.AppUser;
 import com.both.gamified_habit_tracker_api.model.entity.Achievement;
 import com.both.gamified_habit_tracker_api.model.request.AchievementRequest;
+import com.both.gamified_habit_tracker_api.repository.AchievementAppUserRepository;
 import com.both.gamified_habit_tracker_api.repository.AchievementRepository;
 import com.both.gamified_habit_tracker_api.service.IAchievementService;
 import lombok.RequiredArgsConstructor;
@@ -17,28 +18,22 @@ import java.util.UUID;
 public class AchievementService implements IAchievementService {
 
 	private final AchievementRepository achievementRepository;
+	private final AchievementAppUserRepository achievementAppUserRepository;
+
 
 	@Override
 	public List<Achievement> getAllAchievements() {
 		return achievementRepository.getAllAchievements();
 	}
 
-
 	@Override
 	public List<Achievement> getAchievementByUserId() {
 		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
-				.getPrincipal();
+						.getPrincipal();
 		UUID appUserId = appUser.getAppUserId();
-		return achievementRepository.getAchievementByUserId(appUserId);
-	}
-
-
-	@Override
-	public Achievement saveAchievement(AchievementRequest request) {
-		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
-				.getPrincipal();
-		UUID userId = appUser.getAppUserId();
-		return achievementRepository.saveAchievement(request);
+		List<Achievement> achievement = achievementAppUserRepository.getAllAchievementByUserId(appUserId);
+		System.out.println(achievement);
+		return achievement;
 	}
 
 

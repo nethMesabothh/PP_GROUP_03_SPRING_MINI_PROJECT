@@ -14,43 +14,43 @@ import java.util.UUID;
 @Mapper
 public interface HabitRepository {
 
-    @Results(id="habitMapper", value = {
-            @Result(property = "habitId", column = "habit_id", javaType = UUID.class, jdbcType = JdbcType.OTHER, typeHandler = UUIDTypeHandler.class),
-            @Result(property = "isActive", column = "is_active"),
-            @Result(property = "createdAt", column = "created_at", javaType = OffsetDateTime.class),
-            @Result(property = "appUserResponse", column = "app_user_id", one = @One(
-                    select = "com.both.gamified_habit_tracker_api.repository.AppUserRepository.getUserById"
-            ))
-    })
-    @Select("""
-        SELECT * FROM habits
-    """)
-    List<Habit> getAllHabits();
+	@Results(id = "habitMapper", value = {
+					@Result(property = "habitId", column = "habit_id", javaType = UUID.class, jdbcType = JdbcType.OTHER, typeHandler = UUIDTypeHandler.class),
+					@Result(property = "isActive", column = "is_active"),
+					@Result(property = "createdAt", column = "created_at", javaType = OffsetDateTime.class),
+					@Result(property = "appUserResponse", column = "app_user_id", one = @One(
+									select = "com.both.gamified_habit_tracker_api.repository.AppUserRepository.getUserById"
+					))
+	})
+	@Select("""
+					    SELECT * FROM habits WHERE app_user_id = #{userId}
+					""")
+	List<Habit> getAllHabits(UUID userId);
 
 
-    @ResultMap("habitMapper")
-    @Select("""
-        SELECT * FROM habits WHERE habit_id = #{habitId}
-    """)
-    Habit getHabitById(UUID habitId);
+	@ResultMap("habitMapper")
+	@Select("""
+					SELECT * FROM habits WHERE habit_id = #{habitId} AND app_user_id = #{userId}
+					""")
+	Habit getHabitById(@Param("habitId") UUID habitId, @Param("userId") UUID userId);
 
 
-    @ResultMap("habitMapper")
-    @Select("""
-        INSERT INTO habits (habit_id, title, description, frequency, is_active, created_at, app_user_id)
-        VALUES (uuid_generate_v4(), #{req.title}, #{req.description}, #{req.frequency}, true, CURRENT_TIMESTAMP, #{userId})
-        RETURNING *
-    """)
-    Habit saveHabit(@Param("req") HabitRequest request, UUID userId);
+	@ResultMap("habitMapper")
+	@Select("""
+					    INSERT INTO habits (habit_id, title, description, frequency, is_active, created_at, app_user_id)
+					    VALUES (uuid_generate_v4(), #{req.title}, #{req.description}, #{req.frequency}, true, default, #{userId})
+					    RETURNING *
+					""")
+	Habit saveHabit(@Param("req") HabitRequest request, UUID userId);
 
-    @Delete("""
-        DELETE FROM habits WHERE habit_id = #{habitId}
-    """)
-    void deleteHabitById(UUID habitId);
+	@Delete("""
+					    DELETE FROM habits WHERE habit_id = #{habitId} AND app_user_id = #{userId}
+					""")
+	void deleteHabitById(UUID habitId, UUID userId);
 
-    @ResultMap("habitMapper")
-    @Select("""
-        UPDATE habits SET title = #{req.title}, description = #{req.description}, frequency = #{req.frequency} WHERE habit_id = #{habitId} RETURNING *
-    """)
-    Habit updateHabitById(UUID habitId,@Param("req") HabitRequest request);
+	@ResultMap("habitMapper")
+	@Select("""
+					    UPDATE habits SET title = #{req.title}, description = #{req.description}, frequency = #{req.frequency} WHERE habit_id = #{habitId} AND app_user_id = #{userId} RETURNING *
+					""")
+	Habit updateHabitById(UUID habitId, @Param("req") HabitRequest request, UUID userId);
 }

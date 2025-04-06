@@ -32,14 +32,7 @@ public interface AchievementRepository {
 	@Select("""
 					SELECT * FROM achievements
 					""")
-	List<Achievement> getAchievementByUserId(UUID userId);
+	List<Achievement> getAchievementById(UUID achievementId);
 
-//'a7bb8f13-f1a4-47f9-b3de-194f0c0aa030'
-
-	@Insert("""
-					    INSERT INTO achievements (title, description, badge, xp_required)
-					    VALUES (#{title}, #{description}, #{badge}, #{xpRequired})
-					""")
-	Achievement saveAchievement(@Param("req") AchievementRequest request);
 
 }

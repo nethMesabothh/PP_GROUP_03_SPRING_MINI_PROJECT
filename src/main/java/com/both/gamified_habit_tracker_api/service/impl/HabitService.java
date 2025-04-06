@@ -19,37 +19,46 @@ public class HabitService implements IHabitService {
 
 	private final HabitRepository habitRepository;
 
+
 	@Override
 	public List<Habit> getAllHabits() {
 		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
 						.getPrincipal();
 		UUID userId = appUser.getAppUserId();
-		return habitRepository.getAllHabits();
+		return habitRepository.getAllHabits(userId);
 	}
 
 	@Override
 	public Habit getHabitById(UUID habitId) {
-		return habitRepository.getHabitById(habitId);
+		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
+						.getPrincipal();
+		UUID userId = appUser.getAppUserId();
+		return habitRepository.getHabitById(habitId, userId);
 	}
-
 
 
 	@Override
 	public Habit saveHabit(HabitRequest request) {
 		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
-				.getPrincipal();
+						.getPrincipal();
 		UUID userId = appUser.getAppUserId();
 		return habitRepository.saveHabit(request, userId);
 	}
 
 	@Override
 	public void deleteHabitById(UUID habitId) {
-		habitRepository.deleteHabitById(habitId);
+		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
+						.getPrincipal();
+		UUID userId = appUser.getAppUserId();
+		habitRepository.deleteHabitById(habitId, userId);
 	}
 
 	@Override
 	public Habit updateHabitById(UUID habitId, HabitRequest request) {
-		return habitRepository.updateHabitById(habitId, request);
+		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
+						.getPrincipal();
+		UUID userId = appUser.getAppUserId();
+		return habitRepository.updateHabitById(habitId, request, userId);
 	}
 
 
