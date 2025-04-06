@@ -21,12 +21,7 @@ public class JwtService {
 	public static final String SECRET = "FVPr6Q/fVlHGZkElZubC0Zaxv657dPUfDQ4o9DADjSin7+uST1d2A5klMWrMK8fmSl3doyf2wn5zj56VC+qqCg==";
 
 	private String createToken(Map<String, Object> claim, String subject) {
-		return Jwts.builder()
-						.claims(claim)
-						.subject(subject)
-						.issuedAt(new Date(System.currentTimeMillis()))
-						.expiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-						.signWith(getSignKey()).compact();
+		return Jwts.builder().claims(claim).subject(subject).issuedAt(new Date(System.currentTimeMillis())).expiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000)).signWith(getSignKey()).compact();
 	}
 
 	private SecretKey getSignKey() {
@@ -45,16 +40,12 @@ public class JwtService {
 		AppUser appUser = (AppUser) userDetails;
 		claims.put("user_id", appUser.getAppUserId());
 		System.out.println(appUser.getUsername());
-		return createToken(claims, appUser.getUsername());
+		return createToken(claims, appUser.getEmail());
 	}
 
 	//3. retrieving any information from token we will need the secret key
 	private Claims extractAllClaim(String token) {
-		return Jwts.parser()
-						.verifyWith(getSignKey())
-						.build()
-						.parseSignedClaims(token)
-						.getPayload();
+		return Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token).getPayload();
 	}
 
 	//4. extract a specific claim from the JWT token’s claims.
@@ -63,10 +54,16 @@ public class JwtService {
 		return claimsResolver.apply(claims);
 	}
 
-	//5. retrieve username from jwt token
+	//5. retrieve email from jwt token
 	public String extractEmail(String token) {
 		return extractClaim(token, Claims::getSubject);
 	}
+
+	//5. retrieve username from jwt token
+	public String extractUsername(String token) {
+		return extractClaim(token, claims -> (String) claims.get("username"));
+	}
+
 
 	//6. retrieve expiration date from jwt token
 	public Date extractExpirationDate(String token) {

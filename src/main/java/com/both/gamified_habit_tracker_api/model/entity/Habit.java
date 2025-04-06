@@ -11,11 +11,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Habit {
-    private UUID habitId;
-    private String title;
-    private String description;
-    private String frequency;
-    private Boolean isActive;
-    private AppUser appUserResponse;
-    private OffsetDateTime createdAt;
+	private UUID habitId;
+	private String title;
+	private String description;
+	private String frequency;
+	private Boolean isActive;
+	private Profile appUserResponse;
+	private OffsetDateTime createdAt;
 }

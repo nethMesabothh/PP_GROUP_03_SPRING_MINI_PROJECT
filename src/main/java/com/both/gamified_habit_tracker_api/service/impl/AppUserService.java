@@ -1,14 +1,19 @@
 package com.both.gamified_habit_tracker_api.service.impl;
 
 import com.both.gamified_habit_tracker_api.model.entity.AppUser;
+import com.both.gamified_habit_tracker_api.model.entity.Profile;
+import com.both.gamified_habit_tracker_api.model.request.AppUserRequest;
 import com.both.gamified_habit_tracker_api.model.request.RegisterRequest;
 import com.both.gamified_habit_tracker_api.repository.AppUserRepository;
 import com.both.gamified_habit_tracker_api.service.IAppUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 
 @Service
@@ -25,7 +30,7 @@ public class AppUserService implements IAppUserService {
 			throw new UsernameNotFoundException("User not found with identifier: " + identifier);
 		}
 
-		if(!appUser.isVerified()){
+		if (!appUser.isVerified()) {
 			throw new UsernameNotFoundException("User is not verify yet " + identifier);
 		}
 
@@ -50,7 +55,7 @@ public class AppUserService implements IAppUserService {
 	public void verifyUser(String email) {
 		AppUser appUser = appUserRepository.findByEmail(email);
 
-		if(appUser == null){
+		if (appUser == null) {
 			throw new RuntimeException("User not found");
 		}
 
@@ -65,10 +70,32 @@ public class AppUserService implements IAppUserService {
 	@Override
 	public AppUser findUserByEmail(String email) {
 		AppUser appUser = appUserRepository.findByEmail(email);
-		if(appUser == null || appUser.isVerified()){
+		if (appUser == null || appUser.isVerified()) {
 			throw new IllegalArgumentException("User not found or already verified.");
 		}
 		return appUser;
+	}
+
+	@Override
+	public Profile getUser() {
+		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UUID userId = appUser.getAppUserId();
+		return appUserRepository.getUserById(userId); // Now returns a Profile
+	}
+
+	@Override
+	public Profile updateUser(AppUserRequest request) {
+		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UUID userId = appUser.getAppUserId();
+		System.out.println(appUser);
+		return appUserRepository.updateUser(request, userId);
+	}
+
+	@Override
+	public Profile deleteCurrentUser() {
+		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UUID userId = appUser.getAppUserId();
+		return appUserRepository.deleteCurrentUser(userId);
 	}
 
 
