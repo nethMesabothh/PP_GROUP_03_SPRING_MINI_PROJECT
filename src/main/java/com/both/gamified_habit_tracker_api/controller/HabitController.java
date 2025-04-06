@@ -2,6 +2,7 @@ package com.both.gamified_habit_tracker_api.controller;
 
 import com.both.gamified_habit_tracker_api.model.entity.Habit;
 import com.both.gamified_habit_tracker_api.model.request.HabitRequest;
+import com.both.gamified_habit_tracker_api.model.response.APIDeleteResponse;
 import com.both.gamified_habit_tracker_api.model.response.APIResponse;
 import com.both.gamified_habit_tracker_api.model.response.APIResponseError;
 import com.both.gamified_habit_tracker_api.service.impl.HabitService;
@@ -50,9 +51,18 @@ public class HabitController {
 	}
 
 	@GetMapping("/{habit_id}")
-	public ResponseEntity<APIResponse<Habit>> getHabitById(@PathVariable("habit_id") UUID habitId) {
+	public ResponseEntity<?> getHabitById(@PathVariable("habit_id") UUID habitId) {
 
 		Habit habit = habitService.getHabitById(habitId);
+
+		if (habit == null) {
+			APIResponseError apiResponseError = new APIResponseError(false,
+					"Habit not found!",
+					HttpStatus.NOT_FOUND,
+					LocalDateTime.now());
+
+			return ResponseEntity.ok().body(apiResponseError);
+		}
 
 		APIResponse<Habit> apiResponse = new APIResponse<>(
 						true,
@@ -82,25 +92,46 @@ public class HabitController {
 	}
 
 	@DeleteMapping("/{habit_id}")
-	public ResponseEntity<APIResponse<Habit>> deleteHabitById(@PathVariable("habit_id") UUID habitId) {
+	public ResponseEntity<?> deleteHabitById(@PathVariable("habit_id") UUID habitId) {
+
+		Habit habit = habitService.getHabitById(habitId);
+
+		if (habit == null) {
+			APIResponseError apiResponseError = new APIResponseError(false,
+					"Habit not found!",
+					HttpStatus.NOT_FOUND,
+					LocalDateTime.now());
+
+			return ResponseEntity.ok().body(apiResponseError);
+		}
 
 		habitService.deleteHabitById(habitId);
 
-		APIResponse<Habit> apiResponse = new APIResponse<>(
-						true,
-						"Habit deleted successfully",
-						HttpStatus.CREATED,
-						null,  // use this for now
-						LocalDateTime.now()
+
+		APIDeleteResponse<Habit> apiDeleteResponse = new APIDeleteResponse<>(
+				true,
+				"Habit deleted successfully",
+				HttpStatus.OK,
+				LocalDateTime.now()
 		);
 
-		return ResponseEntity.ok().body(apiResponse);
+		return ResponseEntity.ok().body(apiDeleteResponse);
 	}
 
 	@PutMapping("/{habit_id}")
-	public ResponseEntity<APIResponse<Habit>> updateHabitById(@PathVariable("habit_id") UUID habitId, @RequestBody HabitRequest request) {
-		Habit habit = habitService.updateHabitById(habitId, request);
+	public ResponseEntity<?> updateHabitById(@PathVariable("habit_id") UUID habitId, @RequestBody HabitRequest request) {
+		Habit habit = habitService.getHabitById(habitId);
 
+		if (habit == null) {
+			APIResponseError apiResponseError = new APIResponseError(false,
+					"Habit not found!",
+					HttpStatus.NOT_FOUND,
+					LocalDateTime.now());
+
+			return ResponseEntity.ok().body(apiResponseError);
+		}
+
+				habitService.updateHabitById(habitId, request);
 		APIResponse<Habit> apiResponse = new APIResponse<>(
 						true,
 						"Habit updated successfully",
