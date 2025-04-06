@@ -15,7 +15,7 @@ public interface HabitLogRepository {
 					@Result(property = "logDate", column = "log_date"),
 					@Result(property = "xpEarned", column = "xp_earned"),
 					@Result(property = "habit", column = "habit_id", one = @One(
-									select = "com.both.gamified_habit_tracker_api.repository.HabitRepository.getHabitById"
+									select = "com.both.gamified_habit_tracker_api.repository.HabitRepository.getHabitForHabitLog"
 					))
 	})
 	@Select("""

@@ -32,7 +32,13 @@ public interface HabitRepository {
 	@Select("""
 					SELECT * FROM habits WHERE habit_id = #{habitId} AND app_user_id = #{userId}
 					""")
-	Habit getHabitById(@Param("habitId") UUID habitId, @Param("userId") UUID userId);
+	Habit getHabitById(@Param("habitId") UUID habitId, UUID userId);
+
+	@ResultMap("habitMapper")
+	@Select("""
+					SELECT * FROM habits WHERE habit_id = #{habitId}
+					""")
+	Habit getHabitForHabitLog(@Param("habitId") UUID habitId);
 
 
 	@ResultMap("habitMapper")
