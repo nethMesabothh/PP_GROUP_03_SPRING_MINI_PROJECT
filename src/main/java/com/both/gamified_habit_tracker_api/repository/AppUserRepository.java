@@ -13,6 +13,8 @@ public interface AppUserRepository {
 
 	@Results(id = "appUserMapper", value = {
 					@Result(property = "appUserId", column = "app_user_id"),
+					@Result(property = "username", column = "username"),
+					@Result(property = "email", column = "email"),
 					@Result(property = "profileImage", column = "profile_image"),
 					@Result(property = "isVerified", column = "is_verified"),
 					@Result(property = "createdAt", column = "created_at", javaType = OffsetDateTime.class)

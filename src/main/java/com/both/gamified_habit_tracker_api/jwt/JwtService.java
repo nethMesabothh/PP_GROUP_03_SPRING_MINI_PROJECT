@@ -44,7 +44,8 @@ public class JwtService {
 		}
 		AppUser appUser = (AppUser) userDetails;
 		claims.put("user_id", appUser.getAppUserId());
-		return createToken(claims, appUser.getEmail());
+		System.out.println(appUser.getUsername());
+		return createToken(claims, appUser.getUsername());
 	}
 
 	//3. retrieving any information from token we will need the secret key
