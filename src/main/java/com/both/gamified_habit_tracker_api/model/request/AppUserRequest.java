@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppUserRequest {
+
 	private String username;
 	private String profileImage;
 }

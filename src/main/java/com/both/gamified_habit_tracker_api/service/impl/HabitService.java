@@ -25,6 +25,7 @@ public class HabitService implements IHabitService {
 		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
 						.getPrincipal();
 		UUID userId = appUser.getAppUserId();
+
 		return habitRepository.getAllHabits(userId);
 	}
 
