@@ -2,8 +2,10 @@ package com.both.gamified_habit_tracker_api.controller;
 
 import com.both.gamified_habit_tracker_api.model.entity.Achievement;
 import com.both.gamified_habit_tracker_api.model.response.APIResponse;
+import com.both.gamified_habit_tracker_api.model.response.APIResponseError;
 import com.both.gamified_habit_tracker_api.service.impl.AchievementService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +25,10 @@ public class AchievementController {
 	private final AchievementService achievementService;
 
 	@GetMapping
-	public ResponseEntity<APIResponse<List<Achievement>>> getAllAchievements() {
-		List<Achievement> achievements = achievementService.getAllAchievements();
+	public ResponseEntity<?> getAllAchievements(@RequestParam(defaultValue = "1") @Positive Integer page ,
+												@RequestParam(defaultValue = "10") @Positive Integer size) {
+		List<Achievement> achievements = achievementService.getAllAchievements(page, size);
+
 		APIResponse<List<Achievement>> apiResponse = new APIResponse<>(
 						true,
 						"All achievements have been fetched successfully!",
@@ -37,8 +41,18 @@ public class AchievementController {
 	}
 
 	@GetMapping("/app-user-id")
-	public ResponseEntity<APIResponse<List<Achievement>>> getAchievementByUserId() {
+	public ResponseEntity<?> getAchievementByUserId() {
 		List<Achievement> achievements = achievementService.getAchievementByUserId();
+
+		if (achievements.isEmpty()) {
+			APIResponseError apiResponseError = new APIResponseError(false,
+					"No achievements found!",
+					HttpStatus.NOT_FOUND,
+					LocalDateTime.now());
+
+			return ResponseEntity.ok().body(apiResponseError);
+		}
+
 		APIResponse<List<Achievement>> apiResponse = new APIResponse<>(
 						true,
 						"All achievements have been fetched successfully!",

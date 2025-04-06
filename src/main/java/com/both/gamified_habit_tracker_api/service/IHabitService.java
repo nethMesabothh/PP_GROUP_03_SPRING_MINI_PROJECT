@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface IHabitService {
 
-    List<Habit> getAllHabits();
+    List<Habit> getAllHabits(Integer page, Integer size);
 
     Habit getHabitById(UUID habitId);
 

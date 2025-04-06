@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface IAchievementService {
 
-	List<Achievement> getAllAchievements();
+	List<Achievement> getAllAchievements(Integer page, Integer size);
 
 
 

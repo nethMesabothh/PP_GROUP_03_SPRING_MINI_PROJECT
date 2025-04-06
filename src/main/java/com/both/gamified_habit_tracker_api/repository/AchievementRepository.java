@@ -20,9 +20,9 @@ public interface AchievementRepository {
 					@Result(property = "xpRequired", column = "xp_required")
 	})
 	@Select("""
-					SELECT * FROM achievements
+					SELECT * FROM achievements OFFSET #{offset} LIMIT #{size}
 					""")
-	List<Achievement> getAllAchievements();
+	List<Achievement> getAllAchievements(Integer offset, Integer size);
 
 
 	@Results(id = "achievementByUserIdMapper", value = {
