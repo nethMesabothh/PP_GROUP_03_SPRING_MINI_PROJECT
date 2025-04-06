@@ -6,8 +6,8 @@ services:
       - MINIO_ROOT_USER=ppteam3
       - MINIO_ROOT_PASSWORD=@PPTeam123!
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "9005:9000"
+      - "9006:9001"
     volumes:
       - storage:/var/lib/minio/data
     networks:
