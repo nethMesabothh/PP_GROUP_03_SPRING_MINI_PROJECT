@@ -38,7 +38,7 @@ public class SecurityConfig {
 						.cors(withDefaults())
 						.csrf(AbstractHttpConfigurer::disable)
 						.authorizeHttpRequests(request -> request
-										.requestMatchers("/api/v1/auths/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
+										.requestMatchers("/api/v1/auths/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/api/v1/files/**")
 										.permitAll()
 										.anyRequest().authenticated() // All other endpoints require authentication
 						)
