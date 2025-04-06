@@ -4,6 +4,7 @@ import com.both.gamified_habit_tracker_api.model.entity.AppUser;
 import com.both.gamified_habit_tracker_api.model.entity.HabitLog;
 import com.both.gamified_habit_tracker_api.model.entity.Profile;
 import com.both.gamified_habit_tracker_api.model.request.AppUserRequest;
+import com.both.gamified_habit_tracker_api.model.response.APIDeleteResponse;
 import com.both.gamified_habit_tracker_api.model.response.APIResponse;
 import com.both.gamified_habit_tracker_api.service.impl.AppUserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -26,7 +27,7 @@ public class ProfileController {
 	public ResponseEntity<APIResponse<Profile>> getUser() {
 		Profile appUser = appUserService.getUser();
 
-		APIResponse<Profile> response = new APIResponse<>(true, "Habit log created successfully!", HttpStatus.CREATED, appUser, LocalDateTime.now());
+		APIResponse<Profile> response = new APIResponse<>(true, "User profile fetched successfully!", HttpStatus.CREATED, appUser, LocalDateTime.now());
 
 		return ResponseEntity.ok().body(response);
 	}
@@ -35,16 +36,16 @@ public class ProfileController {
 	public ResponseEntity<APIResponse<Profile>> updateUser(@RequestBody AppUserRequest request) {
 		Profile appUser = appUserService.updateUser(request);
 
-		APIResponse<Profile> response = new APIResponse<>(true, "Habit log created successfully!", HttpStatus.CREATED, appUser, LocalDateTime.now());
+		APIResponse<Profile> response = new APIResponse<>(true, "User profile updated successfully!", HttpStatus.CREATED, appUser, LocalDateTime.now());
 
 		return ResponseEntity.ok().body(response);
 	}
 
 	@DeleteMapping
-	public ResponseEntity<APIResponse<Profile>> deleteUser() {
-		Profile appUser = appUserService.deleteCurrentUser();
+	public ResponseEntity<?> deleteUser() {
+		appUserService.deleteCurrentUser();
 
-		APIResponse<Profile> response = new APIResponse<>(true, "Habit log created successfully!", HttpStatus.CREATED, appUser, LocalDateTime.now());
+		APIDeleteResponse<Profile> response = new APIDeleteResponse<>(true, "User deleted successfully!", HttpStatus.OK , LocalDateTime.now());
 
 		return ResponseEntity.ok().body(response);
 	}
