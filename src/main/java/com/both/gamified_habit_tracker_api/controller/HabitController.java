@@ -1,16 +1,13 @@
 package com.both.gamified_habit_tracker_api.controller;
 
-import com.both.gamified_habit_tracker_api.model.entity.AppUser;
 import com.both.gamified_habit_tracker_api.model.entity.Habit;
 import com.both.gamified_habit_tracker_api.model.request.HabitRequest;
 import com.both.gamified_habit_tracker_api.model.response.APIResponse;
 import com.both.gamified_habit_tracker_api.service.impl.HabitService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
