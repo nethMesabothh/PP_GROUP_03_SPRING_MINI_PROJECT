@@ -15,4 +15,5 @@ public class APIResponse<T> {
     private String message;
     private HttpStatus status;
     private T payload;
-    private LocalDateTime time;}
+    private LocalDateTime time;
+}
