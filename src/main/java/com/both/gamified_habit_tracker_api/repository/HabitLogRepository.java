@@ -25,7 +25,7 @@ public interface HabitLogRepository {
 
 	@ResultMap("habitLogMapper")
 	@Select("""
-					SELECT * FROM habit_logs WHERE habit_id = #{habitId}
+					SELECT * FROM habit_logs WHERE habit_id = #{habitId} OFFSET #{offset} LIMIT #{size}
 					""")
-	List<HabitLog> getAllHabitLogById(UUID habitId, UUID userId);
+	List<HabitLog> getAllHabitLogById(UUID habitId, UUID userId, Integer offset, Integer size);
 }

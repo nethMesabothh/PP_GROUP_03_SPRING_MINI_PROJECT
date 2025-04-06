@@ -22,8 +22,9 @@ public class AchievementService implements IAchievementService {
 
 
 	@Override
-	public List<Achievement> getAllAchievements() {
-		return achievementRepository.getAllAchievements();
+	public List<Achievement> getAllAchievements(Integer page, Integer size) {
+		int offset = (page - 1) * size;
+		return achievementRepository.getAllAchievements(offset, size);
 	}
 
 	@Override

@@ -23,9 +23,9 @@ public interface HabitRepository {
 					))
 	})
 	@Select("""
-					    SELECT * FROM habits WHERE app_user_id = #{userId}
+					    SELECT * FROM habits WHERE app_user_id = #{userId} OFFSET #{offset} LIMIT #{size}
 					""")
-	List<Habit> getAllHabits(UUID userId);
+	List<Habit> getAllHabits(UUID userId, Integer offset, Integer size);
 
 
 	@ResultMap("habitMapper")

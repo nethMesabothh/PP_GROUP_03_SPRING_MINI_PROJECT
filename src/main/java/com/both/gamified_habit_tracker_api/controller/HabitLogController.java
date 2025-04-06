@@ -8,6 +8,7 @@ import com.both.gamified_habit_tracker_api.model.response.APIResponseError;
 import com.both.gamified_habit_tracker_api.service.impl.HabitLogService;
 import com.both.gamified_habit_tracker_api.service.impl.HabitService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,8 @@ public class HabitLogController {
 	}
 
 	@GetMapping("/{habit-id}")
-	public ResponseEntity<?> getAllHabitLogById(@PathVariable("habit-id") UUID habitId) {
+	public ResponseEntity<?> getAllHabitLogById(@PathVariable("habit-id") UUID habitId, @RequestParam(defaultValue = "1") @Positive Integer page ,
+												@RequestParam(defaultValue = "10") @Positive Integer size) {
 
 		Habit habit = habitService.getHabitById(habitId);
 
@@ -50,7 +52,7 @@ public class HabitLogController {
 			return ResponseEntity.ok().body(apiResponseError);
 		}
 
-		List<HabitLog> habitLog = habitLogService.getAllHabitLogById(habitId);
+		List<HabitLog> habitLog = habitLogService.getAllHabitLogById(habitId, page, size);
 
 		if (habitLog.isEmpty()) {
 			APIResponseError apiResponseError = new APIResponseError(

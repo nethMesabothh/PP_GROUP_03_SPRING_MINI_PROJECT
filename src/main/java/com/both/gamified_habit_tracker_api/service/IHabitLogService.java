@@ -10,5 +10,5 @@ public interface IHabitLogService {
 
 	HabitLog createHabitLogById(HabitLogRequest request);
 
-	List<HabitLog> getAllHabitLogById(UUID habitId);
+	List<HabitLog> getAllHabitLogById(UUID habitId, Integer page, Integer size);
 }

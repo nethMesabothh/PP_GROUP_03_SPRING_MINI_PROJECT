@@ -21,12 +21,13 @@ public class HabitService implements IHabitService {
 
 
 	@Override
-	public List<Habit> getAllHabits() {
+	public List<Habit> getAllHabits(Integer page, Integer size) {
+		int offset = (page - 1) * size;
 		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
 						.getPrincipal();
 		UUID userId = appUser.getAppUserId();
 
-		return habitRepository.getAllHabits(userId);
+		return habitRepository.getAllHabits(userId, offset, size);
 	}
 
 	@Override

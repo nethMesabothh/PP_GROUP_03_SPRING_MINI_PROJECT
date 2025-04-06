@@ -43,7 +43,7 @@ public class HabitLogService implements IHabitLogService {
 
 		System.out.println(appUserByXp);
 
-		List<Achievement> achievements = achievementRepository.getAllAchievements();
+		List<Achievement> achievements = achievementRepository.getAllAchievements(1,100);
 
 		for (Achievement achievement : achievements) {
 			UUID achievementId = achievementAppUserRepository.findAchievementById(achievement.getAchievementId(), userId);
@@ -57,10 +57,13 @@ public class HabitLogService implements IHabitLogService {
 	}
 
 	@Override
-	public List<HabitLog> getAllHabitLogById(UUID habitId) {
+	public List<HabitLog> getAllHabitLogById(UUID habitId, Integer page, Integer size) {
+
+		int offset = (page - 1) * size;
+
 		AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
 						.getPrincipal();
 		UUID userId = appUser.getAppUserId();
-		return habitLogRepository.getAllHabitLogById(habitId, userId);
+		return habitLogRepository.getAllHabitLogById(habitId, userId, offset, size);
 	}
 }
