@@ -9,6 +9,7 @@ import com.both.gamified_habit_tracker_api.service.impl.AppUserService;
 import com.both.gamified_habit_tracker_api.service.impl.EmailService;
 import com.both.gamified_habit_tracker_api.service.impl.OtpService;
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,7 +76,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+	public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
 		try {
 			// Call the service to register the user
 			appUserService.registerUser(request);
