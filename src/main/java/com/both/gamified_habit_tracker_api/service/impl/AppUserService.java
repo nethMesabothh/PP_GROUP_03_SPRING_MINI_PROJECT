@@ -34,7 +34,6 @@ public class AppUserService implements IAppUserService {
 
 
 	public void registerUser(RegisterRequest request) {
-		// Check if the email or username already exists
 		if (appUserRepository.existsByEmail(request.getEmail())) {
 			throw new RuntimeException("Email already exists");
 		}
