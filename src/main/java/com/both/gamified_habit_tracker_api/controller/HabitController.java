@@ -1,6 +1,7 @@
 package com.both.gamified_habit_tracker_api.controller;
 
 import com.both.gamified_habit_tracker_api.model.entity.Habit;
+import com.both.gamified_habit_tracker_api.model.entity.Profile;
 import com.both.gamified_habit_tracker_api.model.request.HabitRequest;
 import com.both.gamified_habit_tracker_api.model.response.APIDeleteResponse;
 import com.both.gamified_habit_tracker_api.model.response.APIResponse;
@@ -134,12 +135,12 @@ public class HabitController {
 			return ResponseEntity.ok().body(apiResponseError);
 		}
 
-				habitService.updateHabitById(habitId, request);
+			Habit updatedHabit =  habitService.updateHabitById(habitId, request);
 		APIResponse<Habit> apiResponse = new APIResponse<>(
 						true,
 						"Habit updated successfully",
 						HttpStatus.OK,
-						habit,
+						updatedHabit,
 						LocalDateTime.now()
 		);
 

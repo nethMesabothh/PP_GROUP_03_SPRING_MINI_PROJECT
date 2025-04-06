@@ -37,13 +37,14 @@ public class HabitLogService implements IHabitLogService {
 		if (habitByHabit == null) {
 			throw new RuntimeException("HabitId not found");
 		}
-
 		AppUser appUserByXp = appUserRepository.increaseXpAndLevelByUserId(userId);
 
 
+		int page = 0;
+		int size = 1000;
 		System.out.println(appUserByXp);
 
-		List<Achievement> achievements = achievementRepository.getAllAchievements(1,100);
+		List<Achievement> achievements = achievementRepository.getAllAchievements(page, size);
 
 		for (Achievement achievement : achievements) {
 			UUID achievementId = achievementAppUserRepository.findAchievementById(achievement.getAchievementId(), userId);
@@ -52,9 +53,9 @@ public class HabitLogService implements IHabitLogService {
 			}
 		}
 
-
 		return habitLogRepository.createHabitLogById(request, userId);
 	}
+
 
 	@Override
 	public List<HabitLog> getAllHabitLogById(UUID habitId, Integer page, Integer size) {

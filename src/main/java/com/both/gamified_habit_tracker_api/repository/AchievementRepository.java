@@ -22,7 +22,7 @@ public interface AchievementRepository {
 	@Select("""
 					SELECT * FROM achievements OFFSET #{offset} LIMIT #{size}
 					""")
-	List<Achievement> getAllAchievements(Integer offset, Integer size);
+	List<Achievement> getAllAchievements(int offset, Integer size);
 
 
 	@Results(id = "achievementByUserIdMapper", value = {

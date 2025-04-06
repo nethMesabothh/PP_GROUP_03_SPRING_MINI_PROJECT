@@ -1,6 +1,5 @@
 package com.both.gamified_habit_tracker_api.controller;
 
-import com.both.gamified_habit_tracker_api.exception.NotFoundException;
 import com.both.gamified_habit_tracker_api.model.entity.FileMetadata;
 import com.both.gamified_habit_tracker_api.model.response.APIResponseAuth;
 import com.both.gamified_habit_tracker_api.service.FileService;
